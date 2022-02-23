@@ -15,6 +15,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class TestElastic {
 	public static void main(String[] args) throws IOException {
@@ -42,8 +44,17 @@ public class TestElastic {
 		
 		System.out.println(searchHits.getTotalHits());
 		
-		for (SearchHit hit : searchHits) {
-			System.out.println(hit.getSourceAsMap().get("message"));
+		JSONParser jsonParser = new JSONParser();
+		
+		try {
+			for (SearchHit hit : searchHits) {
+				System.out.println(hit.getSourceAsMap().get("message"));
+				JSONObject jsonObj= (JSONObject) jsonParser.parse(hit.getSourceAsMap().get("message").toString());
+				jsonObj.keySet().forEach(val -> System.out.printf("%s : %s\n", val, jsonObj.get(val)));
+				System.out.println("");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 			
 		
