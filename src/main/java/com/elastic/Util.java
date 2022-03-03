@@ -51,7 +51,7 @@ public class Util {
 		try {
 			SearchResponse res = client.search(sr, options);
 			SearchHits searchHits = res.getHits();
-			System.out.println(searchHits.getTotalHits());
+			System.out.printf("toal hits : %d\n",searchHits.getTotalHits());
 			
 			for (SearchHit hit : searchHits) {
 				response.add(new JSONObject(hit.getSourceAsMap()));
@@ -71,7 +71,7 @@ public class Util {
 		
 		try {
 			response = client.index(indexRequest, RequestOptions.DEFAULT);
-			client.close();
+//			client.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
